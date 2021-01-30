@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:controller="ChatController" alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <ListView fx:id="listView" prefHeight="622.0" prefWidth="400.0"/>
+        <HBox prefHeight="59.0" prefWidth="434.0">
+            <TextField onAction="#sendMessage" fx:id="input" prefHeight="39.0" prefWidth="334.0"/>
+            <Button mnemonicParsing="false" onAction="#sendMessage" prefHeight="39.0" prefWidth="102.0"
+                    text="Отправить"/>
+        </HBox>
+</VBox>
