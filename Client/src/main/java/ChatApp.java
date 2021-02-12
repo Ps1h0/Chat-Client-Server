@@ -17,7 +17,7 @@ public class ChatApp extends Application {
         primaryStage.show();
         primaryStage.setOnCloseRequest(request ->{
             try {
-                network.writeMessage("/quit");
+                network.writeMessage(new QuitRequest());
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
