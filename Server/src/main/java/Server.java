@@ -1,7 +1,9 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.stream.Collectors;
 
 public class Server {
 
@@ -26,6 +28,10 @@ public class Server {
         }
     }
 
+    public List<String> getUserNickNames(){
+        return clients.stream().map(ClientHandler::getNickName).collect(Collectors.toList());
+    }
+
     public void addClient(ClientHandler clientHandler){
         clients.add(clientHandler);
         System.out.println("[DEBUG] client added to broadcast queue");
@@ -36,21 +42,18 @@ public class Server {
         System.out.println("[DEBUG] client removed from broadcast queue");
     }
 
-    public void broadcastMessage(String message) throws IOException {
+    public void broadcastMessage(AbstractMessage message) throws IOException {
         for (ClientHandler client : clients){
             client.sendMessage(message);
         }
     }
 
-    public void sendPrivateMessage(ClientHandler from, String nickName, String message) throws IOException {
-        for (ClientHandler client : clients){
-            if (client.getNickName().equals(nickName)){
-                client.sendMessage("from " + from.getNickName() + ": " + message);
-                from.sendMessage("to " + nickName + ": " + message);
-                return;
+    public void sendPrivateMessage(TextMessage message) throws IOException {
+        for (ClientHandler client : clients) {
+            if (client.getNickName().equals(message.getTo()) || client.getNickName().equals(message.getFrom())){
+                client.sendMessage(message);
             }
         }
-        from.sendMessage("User " + nickName + " does not exist");
     }
 
     public static void main(String[] args) {
