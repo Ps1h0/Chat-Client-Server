@@ -1,19 +1,25 @@
-import java.time.LocalDateTime;
+package messages;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+@NoArgsConstructor
+@Getter
 public class TextMessage extends AbstractMessage{
 
     private String from;
     private String to;
     private String message;
-    private LocalDateTime sendAt;
-
-    private TextMessage(){}
+    private String sendAt;
 
     public static TextMessage of(String from, String message){
         TextMessage m = new TextMessage();
         m.from = from;
         m.message = message;
-        m.sendAt = LocalDateTime.now();
+        m.sendAt = dateToString();
         return m;
     }
 
@@ -22,23 +28,13 @@ public class TextMessage extends AbstractMessage{
         m.from = from;
         m.message = message;
         m.to = to;
-        m.sendAt = LocalDateTime.now();
+        m.sendAt = dateToString();
         return m;
     }
 
-    public String getFrom() {
-        return from;
-    }
-
-    public String getTo() {
-        return to;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public LocalDateTime getSendAt() {
-        return sendAt;
+    private static String dateToString() {
+        long date = new Date().getTime();
+        SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        return f.format(date);
     }
 }
